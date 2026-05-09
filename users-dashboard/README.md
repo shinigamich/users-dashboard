@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# Users Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Дашборд пользователей на React, TypeScript и Vite. Данные загружаются из `https://dummyjson.com/users`.
 
-Currently, two official plugins are available:
+## Запуск
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Проверка production-сборки:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+## Что сделано
+
+- Загрузка пользователей через `@tanstack/react-query`: кэширование, состояние загрузки, повторный запрос и обработка ошибок.
+- Сводные карточки: всего пользователей, найдено после фильтров, количество отделов и средний возраст.
+- Поиск по имени, email, username, компании, должности и городу.
+- Фильтр по отделу и сортировка по имени, возрасту или компании.
+- Табличный список с аватарами, должностью, локацией и контактами.
+- Модальное окно профиля с подробной информацией из API.
+- Адаптивная верстка для десктопа и мобильных экранов.
+- Ненавязчивые анимации появления, hover-состояний, skeleton-загрузки и модального окна.
+
+## Почему так
+
+Я оставил стек Vite + React + TypeScript, потому что проект уже был создан в таком формате. Для этой задачи Next.js не дает заметного преимущества: данные публичные, SEO не является ключевой целью, а Vite быстрее и проще для небольшого интерактивного дашборда.
+
+React Query выбран для работы с API, потому что он закрывает типовые сценарии интерфейса: загрузка, ошибка, повторный запрос, кэш и фоновое обновление. Это чище, чем вручную держать несколько связанных состояний вокруг `fetch`.
+
+На экран вынесены не все поля API, а те, которые помогают быстро понять список людей: имя, роль, компания, город, email и телефон. Остальные детали доступны по клику в профиле, чтобы основной экран оставался читаемым.
+
+Визуально интерфейс сделан спокойным: светлый фон, контрастные акценты, простые контролы и короткие анимации. Дашборд должен выглядеть современно, но не отвлекать от основной задачи: найти человека и посмотреть его данные.
