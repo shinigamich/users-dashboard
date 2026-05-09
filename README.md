@@ -4,6 +4,7 @@
 
 ```bash
 git clone https://github.com/shinigamich/users-dashboard.git
+cd users-dashboard
 npm install
 npm run dev
 ```
